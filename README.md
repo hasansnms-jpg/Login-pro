@@ -1,16 +1,36 @@
-# login_pro
+# Login Pro Flutter App
 
-A new Flutter project.
+![App Demo](assets/pro.gif) 
+
+A modern Flutter login, register, and forgot password application with multi-language support and responsive design. This project showcases Flutter UI design, form validation, and basic navigation.
+
+## Features
+
+- Login with email and password
+- Password visibility toggle
+- Register screen with additional fields (name, birthday, phone, repeated email)
+- Forgot password screen with email validation
+- Multi-language dropdown: English, German, Dutch, Arabic
+- Form validation using `email_validator`
+- Toast messages for feedback
+- Gradient background and card-based layout
+- Desktop window size handling (for macOS/Windows/Linux)
+- Refresh indicator on login screen (optional)
+- Responsive UI for mobile and desktop
+
+## Screenshots / Demo
+
+![App Demo](assets/pro.gif)  
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### Prerequisites
 
-A few resources to get you started if this is your first Flutter project:
+- Flutter SDK installed
+- A device/emulator to run the project
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Installation
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/login_pro.git

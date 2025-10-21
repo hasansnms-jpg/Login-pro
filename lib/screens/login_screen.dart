@@ -66,178 +66,187 @@ class _LoginScreenState extends State<LoginScreen> {
             margin: EdgeInsets.symmetric(horizontal: 24),
             child: Padding(
               padding: EdgeInsets.all(32),
-              child: SingleChildScrollView(
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // Language Selector at the top
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          DropdownButtonHideUnderline(
-                            child: DropdownButton<String>(
-                              value: _selectedLanguage,
-                              items:
-                                  _languages
-                                      .map(
-                                        (lang) => DropdownMenuItem(
-                                          value: lang,
-                                          child: Text(lang),
-                                        ),
-                                      )
-                                      .toList(),
-                              onChanged: (value) {
-                                if (value != null) {
-                                  setState(() {
-                                    _selectedLanguage = value;
-                                  });
-                                }
-                              },
-                              dropdownColor:
-                                  Colors
-                                      .white, // background color of the dropdown
-                              focusColor:
-                                  Colors
-                                      .transparent, // removes gray overlay on click
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      SizedBox(height: 20),
-                      Text(
-                        "Welcome Back",
-                        style: TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue.shade900,
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        "Login to your account",
-                        style: TextStyle(fontSize: 16, color: Colors.grey[700]),
-                      ),
-                      SizedBox(height: 30),
-                      // Email Field
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: "Email",
-                          prefixIcon: Icon(Icons.email),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Enter email";
-                          } else if (!EmailValidator.validate(value)) {
-                            return "Enter a valid email";
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(height: 20),
-                      // Password Field
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: "Password",
-                          prefixIcon: Icon(Icons.lock),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _obscurePassword
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
-                              color: Colors.grey,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _obscurePassword = !_obscurePassword;
-                              });
-                            },
-                          ),
-                        ),
-                        obscureText: _obscurePassword,
-                        validator: validatePassword,
-                        onChanged: (value) => password = value,
-                      ),
-                      SizedBox(height: 25),
-                      ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState != null &&
-                              _formKey.currentState!.validate()) {
-                            Fluttertoast.showToast(
-                              msg: "Logged in successfully!",
-                            );
-                          } else {
-                            Fluttertoast.showToast(
-                              msg: "Please fill all fields correctly",
-                            );
-                          }
-                        },
-
-                        style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 16,
-                            horizontal: 80,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          textStyle: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          backgroundColor: Colors.blue.shade700,
-                          elevation: 8,
-                        ),
-                        child: Text("Login"),
-                      ),
-
-                      SizedBox(height: 15),
-                      TextButton(
-                        onPressed:
-                            () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => ForgotPasswordScreen(),
+              child: RefreshIndicator(
+                onRefresh: () async{
+                  setState(() {
+                    email = '';
+                    password = '';
+                    _formKey.currentState?.reset();
+                  });
+                },
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Language Selector at the top
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            DropdownButtonHideUnderline(
+                              child: DropdownButton<String>(
+                                value: _selectedLanguage,
+                                items:
+                                    _languages
+                                        .map(
+                                          (lang) => DropdownMenuItem(
+                                            value: lang,
+                                            child: Text(lang),
+                                          ),
+                                        )
+                                        .toList(),
+                                onChanged: (value) {
+                                  if (value != null) {
+                                    setState(() {
+                                      _selectedLanguage = value;
+                                    });
+                                  }
+                                },
+                                dropdownColor:
+                                    Colors
+                                        .white, // background color of the dropdown
+                                focusColor:
+                                    Colors
+                                        .transparent, // removes gray overlay on click
+                                style: TextStyle(color: Colors.black),
                               ),
                             ),
-                        child: Text(
-                          "Forgot Password?",
-                          style: TextStyle(color: Colors.blue.shade900),
+                          ],
                         ),
-                      ),
-                      SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Don't have an account?",
-                            style: TextStyle(color: Colors.grey[700]),
+                
+                        SizedBox(height: 20),
+                        Text(
+                          "Welcome Back",
+                          style: TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue.shade900,
                           ),
-                          TextButton(
-                            onPressed:
-                                () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => RegisterScreen(),
-                                  ),
-                                ),
-                            child: Text(
-                              "Register",
-                              style: TextStyle(color: Colors.blue.shade900),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          "Login to your account",
+                          style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+                        ),
+                        SizedBox(height: 30),
+                        // Email Field
+                        TextFormField(
+                          decoration: InputDecoration(
+                            labelText: "Email",
+                            prefixIcon: Icon(Icons.email),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
                             ),
                           ),
-                        ],
-                      ),
-                    ],
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Enter email";
+                            } else if (!EmailValidator.validate(value)) {
+                              return "Enter a valid email";
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(height: 20),
+                        // Password Field
+                        TextFormField(
+                          decoration: InputDecoration(
+                            labelText: "Password",
+                            prefixIcon: Icon(Icons.lock),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _obscurePassword
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                                color: Colors.grey,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _obscurePassword = !_obscurePassword;
+                                });
+                              },
+                            ),
+                          ),
+                          obscureText: _obscurePassword,
+                          validator: validatePassword,
+                          onChanged: (value) => password = value,
+                        ),
+                        SizedBox(height: 25),
+                        ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState != null &&
+                                _formKey.currentState!.validate()) {
+                              Fluttertoast.showToast(
+                                msg: "Logged in successfully!",
+                              );
+                            } else {
+                              Fluttertoast.showToast(
+                                msg: "Please fill all fields correctly",
+                              );
+                            }
+                          },
+                
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 16,
+                              horizontal: 80,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            textStyle: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            backgroundColor: Colors.blue.shade700,
+                            elevation: 8,
+                          ),
+                          child: Text("Login"),
+                        ),
+                
+                        SizedBox(height: 15),
+                        TextButton(
+                          onPressed:
+                              () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => ForgotPasswordScreen(),
+                                ),
+                              ),
+                          child: Text(
+                            "Forgot Password?",
+                            style: TextStyle(color: Colors.blue.shade900),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Don't have an account?",
+                              style: TextStyle(color: Colors.grey[700]),
+                            ),
+                            TextButton(
+                              onPressed:
+                                  () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => RegisterScreen(),
+                                    ),
+                                  ),
+                              child: Text(
+                                "Register",
+                                style: TextStyle(color: Colors.blue.shade900),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
