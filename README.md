@@ -18,10 +18,6 @@ A modern Flutter login, register, and forgot password application with multi-lan
 - Refresh indicator on login screen (optional)
 - Responsive UI for mobile and desktop
 
-## Screenshots / Demo
-
-![App Demo](assets/pro.gif)  
-
 ## Getting Started
 
 ### Prerequisites
